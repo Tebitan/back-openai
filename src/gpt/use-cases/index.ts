@@ -1,1 +1,1 @@
-export { orthograhyChechUseCase } from './orthography.use-case';
+export { orthographyChechUseCase } from './orthography.use-case';
