@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { GptService } from './gpt.service';
-import { OrthographyDto } from './dtos';
+import { OrthographyDto, TranslateDto } from './dtos';
 
 @Controller('gpt')
 export class GptController {
@@ -10,4 +10,11 @@ export class GptController {
   orthographyCheck( @Body() body:OrthographyDto){
     return this.gptService.orthographyCheck(body);
   }
+
+  @Post('translate')
+  translateText( @Body() body:TranslateDto){
+    return this.gptService.translate(body);
+  }
+
+
 }
