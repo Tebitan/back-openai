@@ -1,16 +1,15 @@
 import { Transform, TransformFnParams } from "class-transformer";
 import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString } from "class-validator";
 
-export class TranslateDto{
+export class TextToAudioDto{
     @IsString()
     @IsNotEmpty()
     @Transform(({ value }: TransformFnParams) => value?.trim())
     readonly promt:string;
 
     @IsString()
-    @IsNotEmpty()
-    @Transform(({ value }: TransformFnParams) => value?.trim())
-    readonly lang:string;
+    @IsOptional()
+    readonly voice?:string;
 
     @IsInt()
     @IsPositive()
