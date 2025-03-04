@@ -1,3 +1,4 @@
+export { audioToTextUseCase } from './audio-to-text.use-case';
 export { textToAudioUseCase } from './text-to-audio.use-case';
 export { getAudioByIdUseCase } from './text-to-audio.use-case';
 export { translateUseCase } from './translate.use-case';
