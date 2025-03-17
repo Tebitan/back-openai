@@ -3,7 +3,7 @@ import { Body, Controller, FileTypeValidator, Get, HttpStatus, MaxFileSizeValida
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { GptService } from './gpt.service';
-import { AudioToTextDto, OrthographyDto, TextToAudioDto, TranslateDto } from './dtos';
+import { AudioToTextDto, ImageGenrationDto, ImagenVariationDto, OrthographyDto, TextToAudioDto, TranslateDto } from './dtos';
 
 @Controller('gpt')
 export class GptController {
@@ -29,7 +29,7 @@ export class GptController {
 
   @Get('text-to-audio/:fileID')
   async getAudio(@Param('fileID', ParseIntPipe) fileID: number, @Res() res: Response) {
-    const filePath = await this.gptService.getAudioById(fileID);
+    const filePath = await this.gptService.getFileById(fileID, 1);
     res.setHeader('Content-Type', 'audio/mp3');
     res.status(HttpStatus.OK);
     res.sendFile(filePath);
@@ -53,6 +53,23 @@ export class GptController {
     ]
   })) file: Express.Multer.File, @Body() body: AudioToTextDto) {
     return this.gptService.audioToText(file, body);
-    AudioToTextDto
+  }
+
+  @Post('imagen-generation')
+  async imagenGeneration(@Body() body: ImageGenrationDto) {
+    return await this.gptService.imageGeneration(body);
+  }
+
+  @Get('imagen-generation/:fileID')
+  async getImage(@Param('fileID', ParseIntPipe) fileID: number, @Res() res: Response) {
+    const filePath = await this.gptService.getFileById(fileID, 2);
+    res.setHeader('Content-Type', 'image/png');
+    res.status(HttpStatus.OK);
+    res.sendFile(filePath);
+  }
+
+  @Post('imagen-variation')
+  async imagenVariation(@Body() body: ImagenVariationDto) {
+    return await this.gptService.imagenVariation(body);
   }
 }
