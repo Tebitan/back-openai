@@ -1,3 +1,4 @@
+export { DicusserDto } from './dicusser.dto';
 export { ImagenVariationDto } from './image-variation.dto';
 export { ImageGenrationDto } from './image-generation.dto';
 export { AudioToTextDto } from './audio-to-text.dto';

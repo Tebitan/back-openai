@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import OpenAI from 'openai';
-import { orthographyChechUseCase, textToAudioUseCase, translateUseCase, getAudioByIdUseCase, audioToTextUseCase, imageGenerationUseCase, getImageByIdUseCase, imageVariationUseCase } from './use-cases';
-import { AudioToTextDto, ImageGenrationDto, ImagenVariationDto, OrthographyDto, TextToAudioDto, TranslateDto } from './dtos';
+import { orthographyChechUseCase, textToAudioUseCase, translateUseCase, getAudioByIdUseCase, audioToTextUseCase, imageGenerationUseCase, getImageByIdUseCase, imageVariationUseCase, dicusserUseCase, dicusserStreamUseCase } from './use-cases';
+import { AudioToTextDto, DicusserDto, ImageGenrationDto, ImagenVariationDto, OrthographyDto, TextToAudioDto, TranslateDto } from './dtos';
 
 @Injectable()
 export class GptService {
@@ -33,7 +33,15 @@ export class GptService {
         return await imageGenerationUseCase(this.openai, { prompt: imageGenrationDto.prompt, originalImage: imageGenrationDto.originalImage, maskImage: imageGenrationDto.maskImage });
     }
 
-    async imagenVariation(imagenVariationDto:ImagenVariationDto){
-        return await imageVariationUseCase(this.openai,{ baseImage : imagenVariationDto.baseImage});
+    async imagenVariation(imagenVariationDto: ImagenVariationDto) {
+        return await imageVariationUseCase(this.openai, { baseImage: imagenVariationDto.baseImage });
+    }
+
+    async dicusser({ prompt }: DicusserDto) {
+        return await dicusserUseCase(this.openai, { prompt });
+    }
+
+    async dicusserStream({ prompt }: DicusserDto) {
+        return await dicusserStreamUseCase(this.openai, { prompt });
     }
 }

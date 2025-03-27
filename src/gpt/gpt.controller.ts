@@ -3,7 +3,7 @@ import { Body, Controller, FileTypeValidator, Get, HttpStatus, MaxFileSizeValida
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { GptService } from './gpt.service';
-import { AudioToTextDto, ImageGenrationDto, ImagenVariationDto, OrthographyDto, TextToAudioDto, TranslateDto } from './dtos';
+import { AudioToTextDto, DicusserDto, ImageGenrationDto, ImagenVariationDto, OrthographyDto, TextToAudioDto, TranslateDto } from './dtos';
 
 @Controller('gpt')
 export class GptController {
@@ -71,5 +71,22 @@ export class GptController {
   @Post('imagen-variation')
   async imagenVariation(@Body() body: ImagenVariationDto) {
     return await this.gptService.imagenVariation(body);
+  }
+
+  @Post('pros-cons-discusser')
+  prosConsDicusser(@Body() prosConsDiscusserDto: DicusserDto) {
+    return this.gptService.dicusser(prosConsDiscusserDto);
+  }
+
+  @Post('pros-cons-discusser-stream')
+  async prosConsDicusserStream(@Body() prosConsDiscusserDto: DicusserDto, @Res() res: Response) {
+    const stream = await this.gptService.dicusserStream(prosConsDiscusserDto);
+    res.setHeader('Content-Type', 'application/json');
+    res.status(HttpStatus.OK);
+    for await (const chuck of stream) {
+      const piece = chuck.choices[0].delta.content || '';
+      res.write(piece);
+    }
+    res.end();
   }
 }
