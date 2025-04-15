@@ -1,3 +1,4 @@
+export { imageToTextUseCase } from './image-to-text.use-case';
 export { dicusserUseCase } from './dicusser.use-case';
 export { dicusserStreamUseCase } from './dicusser.use-case';
 export { imageVariationUseCase } from './image-generation.use-case';
